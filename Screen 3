@@ -1,0 +1,60 @@
+import socket
+import json
+s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+s.bind(('192.168.1.6', 10082))
+s.listen(100)
+conn, addr = s.accept()
+
+while True:
+    data = conn.recv(10000)
+    rdata = json.loads(data.decode())
+    print(rdata)
+    data = ''
+    rdata = [0, 0]
+
+import turtle
+window = turtle.Screen()
+window.title("Ping Pong")
+window.setup(width=1.0, height=1.0)
+window.bgcolor("black")
+
+border = turtle.Turtle()
+border.speed(0)
+border.color("green")
+border.begin_fill()
+border.goto(-700, 400)
+border.goto(700, 400)
+border.goto(700, -400)
+border.goto(-700, -400)
+border.goto(-700, 400)
+border.end_fill()
+border.hideturtle()
+
+rocket_b = turtle.Turtle()
+rocket_b.speed(3)
+rocket_b.shape("square")
+rocket_b.color("white")
+rocket_b.shapesize(stretch_wid=5, stretch_len=1)
+rocket_b.penup()
+rocket_b.goto(250, 0)
+def move_up_b():
+    y = rocket_b.ycor() + 10
+    if y > 250:
+        y = 250
+    rocket_b.sety(y)
+
+
+def move_down_b():
+    y = rocket_b.ycor() - 10
+    if y < -250:
+        y = -250
+    rocket_b.sety(y)
+
+window.listen()
+window.onkeypress(move_up_b, "o")
+window.onkeypress(move_down_b, "l")
+window.onkeypress(move_up_b, "Up")
+window.onkeypress(move_down_b, "Down")
+
+window.mainloop()
+
